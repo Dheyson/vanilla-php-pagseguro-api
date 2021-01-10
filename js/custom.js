@@ -1,8 +1,8 @@
 function payment() {
-	$base_url = jQuery('.address').attr('data-address');
+	let base_url = jQuery('.address').attr('data-address');
 
 	$.ajax({
-		url: $base_url + 'payment.php',
+		url: base_url + 'payment.php',
 		type: "POST",
 		dataType: "json",
 		success: function (response) {
