@@ -18,7 +18,7 @@
 
 	curl_close($curl);
 
-	$xml = simplexml_load_file($response);
+	$xml = simplexml_load_string($response);
 
 	echo json_encode($xml);
 ?>

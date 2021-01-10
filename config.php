@@ -1,7 +1,7 @@
 <?php
 	$is_sandbox = true;
 
-	define("BASE_URL", "http://localhost/vanilla-php-pagseguro-api/");
+	define("BASE_URL", "https://localhost/vanilla-php-pagseguro-api/");
 
 	if ($is_sandbox) {
 		define("EMAIL_PAGSEGURO", "silvanetealvessevero12@hotmail.com");
