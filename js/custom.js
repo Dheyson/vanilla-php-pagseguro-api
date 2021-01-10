@@ -1,5 +1,7 @@
+payment();
+
 function payment() {
-	let base_url = jQuery('.address').attr('data-address');
+	let base_url = $('.address').attr('data-address');
 
 	$.ajax({
 		url: base_url + 'payment.php',
@@ -15,7 +17,7 @@ function payment() {
 	})
 }
 
-function getPaymentMethods(params) {
+function getPaymentMethods() {
 	PagSeguroDirectPayment.getPaymentMethods({
 		amount: 500.00,
 		success: function (response) {
@@ -41,3 +43,31 @@ function getPaymentMethods(params) {
 		}
 	});
 }
+
+$('#card').on('keyup', function () {
+	let card_number = $(this).val();
+	let amount = card_number.length;
+
+	$('#error_message').empty();
+
+	if (amount === 6) {
+		PagSeguroDirectPayment.getBrand({
+			cardBin: card_number,
+			success: function (response) {
+				console.log(response);
+
+				let flag_brand = response.brand.name;
+
+				$('.flag-card').html('<img alt="' + flag_brand + '" src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/' + flag_brand + '.png" />');
+			},
+			error: function (response) {
+				//tratamento do erro
+				$('.flag-card').empty();
+				$('#error_message').html("Invalid Card").css('color', 'red');
+			},
+			complete: function (response) {
+				//tratamento comum para todas chamadas
+			}
+		});
+	}
+});
