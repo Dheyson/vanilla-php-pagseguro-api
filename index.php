@@ -24,6 +24,9 @@
 		<br />
 		<label for="token_card">Token Card</label>
 		<input type="text" id="token_card" name="token_card" />
+		<br />
+		<label for="hash_card">Hash Card</label>
+		<input type="text" id="hash_card" name="hash_card" />
 	</form>
 	<br />
 	<span id="error_message"></span>

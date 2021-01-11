@@ -116,3 +116,15 @@ function getCardToken() {
 		}
 	});
 }
+
+$('#hash_card').on('focus', function (event) {
+	event.preventDefault();
+	PagSeguroDirectPayment.onSenderHashReady(function (response) {
+		if (response.status == 'error') {
+			console.log(response.message);
+			return false;
+		}
+		var hash = response.senderHash; //Hash estará disponível nesta variável.
+		$('#hash_card').val(hash);
+	});
+})
