@@ -13,8 +13,6 @@ This comes as a future reference.
 
 Dheyson Alves – [@DheysonAlves2](https://twitter.com/DheysonAlves2) – dheyson10@gmail.com
 
-Distributed under the  GNU GENERAL PUBLIC LICENSE. See ``LICENSE`` for more information.
-
 ## 👋 Contributing
 
 1. Fork it (<https://github.com/Dheyson/awesome-form-jquery-validator/fork>)
