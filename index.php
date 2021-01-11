@@ -1,5 +1,5 @@
 <?php
-	include './config.php';
+	include './config.sandbox.php';
 ?>
 
 <!DOCTYPE html>

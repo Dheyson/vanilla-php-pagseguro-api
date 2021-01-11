@@ -1,6 +1,6 @@
 <?php
 
-	include './config.php';
+	include './config.sandbox.php';
 
 	$data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
