@@ -143,5 +143,18 @@ $('#button_buy').on('submit', function (event) {
 	event.preventDefault();
 
 	let data = $('#pagseguro_form').serialize();
-	console.log(data);
+	let URL = $('.address').attr('data-address');
+
+	$.ajax({
+		method: 'POST',
+		url: URL + "checkout.php",
+		data: data,
+		dataType: 'json',
+		success: function (response) {
+			console.log(JSON.stringify(response));
+		},
+		error: function (response) {
+			console.log('Error', response);
+		}
+	})
 })
