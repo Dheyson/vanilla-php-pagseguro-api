@@ -10,7 +10,6 @@ function payment() {
 		type: "POST",
 		dataType: "json",
 		success: function (response) {
-			console.log(response);
 			PagSeguroDirectPayment.setSessionId(response.id);
 		},
 		complete: function (response) {
@@ -41,7 +40,7 @@ function getPaymentMethods() {
 			// Callback para chamadas que falharam.
 		},
 		complete: function (response) {
-			// Callback para todas chamadas.
+			getCardToken();
 		}
 	});
 }
@@ -83,11 +82,8 @@ function getInstallments(brand) {
 		brand: brand,
 		success: function (response) {
 			// Retorna as opções de parcelamento disponíveis
-			console.log(response);
 			$.each(response.installments, function(index, data) {
 				$.each(data, function(inner_index, inner_data) {
-					console.log(inner_data);
-
 					let amount_float = inner_data.installmentAmount.toFixed(2).replace(".", ",");
 					$('#installments_amount').show().append("<option value='" + inner_data.installmentAmount + "'>" + inner_data.quantity + " Parcelas de R$ " + amount_float + "</option>")
 				});
@@ -95,6 +91,25 @@ function getInstallments(brand) {
 		},
 		error: function (response) {
 			// callback para chamadas que falharam.
+		},
+		complete: function (response) {
+			// Callback para todas chamadas.
+		}
+	});
+}
+
+function getCardToken() {
+	PagSeguroDirectPayment.createCardToken({
+		cardNumber: '4111111111111111', // Número do cartão de crédito
+		brand: 'visa', // Bandeira do cartão
+		cvv: '123', // CVV do cartão
+		expirationMonth: '12', // Mês da expiração do cartão
+		expirationYear: '2030', // Ano da expiração do cartão, é necessário os 4 dígitos.
+		success: function (response) {
+			$('#token_card').val(response.card.token);
+		},
+		error: function (response) {
+			// Callback para chamadas que falharam.
 		},
 		complete: function (response) {
 			// Callback para todas chamadas.

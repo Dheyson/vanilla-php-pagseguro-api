@@ -16,10 +16,14 @@
 
 	<form action="" method="post">
 		<label for="card">Credit Card</label>
-		<input type="text" name="card_number" id="card" />
+		<input type="text" name="card_number" id="card" /><br />
+		<label for="installments_amount">Installments Amount</label>
 		<select name="installments_amount" id="installments_amount" class="select--none">
 			<option selected value="">Select the installment</option>
 		</select>
+		<br />
+		<label for="token_card">Token Card</label>
+		<input type="text" id="token_card" name="token_card" />
 	</form>
 	<br />
 	<span id="error_message"></span>
