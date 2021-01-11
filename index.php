@@ -17,11 +17,13 @@
 	<form action="" method="post">
 		<label for="card">Credit Card</label>
 		<input type="text" name="card_number" id="card" />
+		<select name="installments_amount" id="installments_amount" class="select--none">
+			<option selected value="">Select the installment</option>
+		</select>
 	</form>
 	<br />
 	<span id="error_message"></span>
-	<div class="flag-card">
-	</div>
+	<div class="flag-card"></div>
 	<!-- <button type="submit" onclick="payment()">
 		Buy
 	</button> -->

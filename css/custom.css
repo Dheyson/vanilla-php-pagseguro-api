@@ -1,3 +1,7 @@
 .img__flag--padding {
 	padding-right: 2px;
 }
+
+.select--none {
+	display: none;
+}

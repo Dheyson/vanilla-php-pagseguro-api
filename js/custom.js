@@ -1,3 +1,5 @@
+var amount = 600.00;
+
 payment();
 
 function payment() {
@@ -59,6 +61,8 @@ $('#card').on('keyup', function () {
 				let flag_brand = response.brand.name;
 
 				$('.flag-card').html('<img alt="' + flag_brand + '" src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/' + flag_brand + '.png" />');
+
+				getInstallments(flag_brand);
 			},
 			error: function (response) {
 				//tratamento do erro
@@ -71,3 +75,29 @@ $('#card').on('keyup', function () {
 		});
 	}
 });
+
+function getInstallments(brand) {
+	PagSeguroDirectPayment.getInstallments({
+		amount: amount,
+		maxInstallmentNoInterest: 3,
+		brand: brand,
+		success: function (response) {
+			// Retorna as opções de parcelamento disponíveis
+			console.log(response);
+			$.each(response.installments, function(index, data) {
+				$.each(data, function(inner_index, inner_data) {
+					console.log(inner_data);
+
+					let amount_float = inner_data.installmentAmount.toFixed(2).replace(".", ",");
+					$('#installments_amount').show().append("<option value='" + inner_data.installmentAmount + "'>" + inner_data.quantity + " Parcelas de R$ " + amount_float + "</option>")
+				});
+			});
+		},
+		error: function (response) {
+			// callback para chamadas que falharam.
+		},
+		complete: function (response) {
+			// Callback para todas chamadas.
+		}
+	});
+}
