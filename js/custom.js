@@ -40,12 +40,11 @@ function getPaymentMethods() {
 			// Callback para chamadas que falharam.
 		},
 		complete: function (response) {
-			getCardToken();
 		}
 	});
 }
 
-$('#card').on('keyup', function () {
+$('#card_number').on('keyup', function () {
 	let card_number = $(this).val();
 	let amount = card_number.length;
 
@@ -60,7 +59,7 @@ $('#card').on('keyup', function () {
 				let flag_brand = response.brand.name;
 
 				$('.flag-card').html('<img alt="' + flag_brand + '" src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/' + flag_brand + '.png" />');
-
+				$('#brand_name').val(flag_brand);
 				getInstallments(flag_brand);
 			},
 			error: function (response) {
@@ -84,8 +83,12 @@ function getInstallments(brand) {
 			// Retorna as opções de parcelamento disponíveis
 			$.each(response.installments, function(index, data) {
 				$.each(data, function(inner_index, inner_data) {
+					console.log(inner_data);
 					let amount_float = inner_data.installmentAmount.toFixed(2).replace(".", ",");
-					$('#installments_amount').show().append("<option value='" + inner_data.installmentAmount + "'>" + inner_data.quantity + " Parcelas de R$ " + amount_float + "</option>")
+					$('#installments_amount').show().append(
+					"<option value='"+ inner_data.installmentAmount + "' data-installments='" + inner_data.installmentAmount + "'>"
+						+ inner_data.quantity +" Parcelas de R$ " + amount_float +
+					"</option>")
 				});
 			});
 		},
@@ -96,15 +99,35 @@ function getInstallments(brand) {
 			// Callback para todas chamadas.
 		}
 	});
+};
+
+$('#installments_amount').change(function () {
+	$('#installment_value').val($('#installments_amount').find(':selected').attr('data-installments'));
+});
+
+function getHashToken() {
+	PagSeguroDirectPayment.onSenderHashReady(function (response) {
+		if (response.status == 'error') {
+			console.log(response.message);
+			return false;
+		} else {
+			var hash = response.senderHash; //Hash estará disponível nesta variável.
+			$('#hash_card').val(hash);
+			let data = $('#pagseguro_form').serialize();
+			console.log(data);
+		}
+	});
 }
 
-function getCardToken() {
+$('#hash_card').on('focus', function (event) {
+	event.preventDefault();
+
 	PagSeguroDirectPayment.createCardToken({
-		cardNumber: '4111111111111111', // Número do cartão de crédito
-		brand: 'visa', // Bandeira do cartão
-		cvv: '123', // CVV do cartão
-		expirationMonth: '12', // Mês da expiração do cartão
-		expirationYear: '2030', // Ano da expiração do cartão, é necessário os 4 dígitos.
+		cardNumber: $('#card_number').val(), // Número do cartão de crédito
+		brand: $('#brand_name').val(), // Bandeira do cartão
+		cvv: $('#cvv_card').val(), // CVV do cartão
+		expirationMonth: $('#month_expiration').val(), // Mês da expiração do cartão
+		expirationYear: $('#year_expiration').val(), // Ano da expiração do cartão, é necessário os 4 dígitos.
 		success: function (response) {
 			$('#token_card').val(response.card.token);
 		},
@@ -113,18 +136,7 @@ function getCardToken() {
 		},
 		complete: function (response) {
 			// Callback para todas chamadas.
+			getHashToken();
 		}
 	});
-}
-
-$('#hash_card').on('focus', function (event) {
-	event.preventDefault();
-	PagSeguroDirectPayment.onSenderHashReady(function (response) {
-		if (response.status == 'error') {
-			console.log(response.message);
-			return false;
-		}
-		var hash = response.senderHash; //Hash estará disponível nesta variável.
-		$('#hash_card').val(hash);
-	});
-})
+});
