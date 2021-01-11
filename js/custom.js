@@ -113,13 +113,11 @@ function getHashToken() {
 		} else {
 			var hash = response.senderHash; //Hash estará disponível nesta variável.
 			$('#hash_card').val(hash);
-			let data = $('#pagseguro_form').serialize();
-			console.log(data);
 		}
 	});
 }
 
-$('#hash_card').on('focus', function (event) {
+$('#card_number').on('focus', function (event) {
 	event.preventDefault();
 
 	PagSeguroDirectPayment.createCardToken({
@@ -140,3 +138,10 @@ $('#hash_card').on('focus', function (event) {
 		}
 	});
 });
+
+$('#button_buy').on('submit', function (event) {
+	event.preventDefault();
+
+	let data = $('#pagseguro_form').serialize();
+	console.log(data);
+})
