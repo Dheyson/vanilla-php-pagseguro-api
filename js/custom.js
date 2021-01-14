@@ -113,11 +113,28 @@ function getHashToken() {
 		} else {
 			var hash = response.senderHash; //Hash estará disponível nesta variável.
 			$('#hash_card').val(hash);
+
+			let data = $('#pagseguro_form').serialize();
+			let URL = $('.address').attr('data-address');
+
+			$.ajax({
+				method: 'POST',
+				url: URL + "checkout.php",
+				data: data,
+				dataType: 'json',
+				success: function (response) {
+					console.log(JSON.stringify(response));
+				},
+				error: function (response) {
+					console.log('Error', response);
+				}
+			})
+
 		}
 	});
 }
 
-$('#card_number').on('focus', function (event) {
+$('#button_buy').on('submit', function (event) {
 	event.preventDefault();
 
 	PagSeguroDirectPayment.createCardToken({
@@ -138,23 +155,3 @@ $('#card_number').on('focus', function (event) {
 		}
 	});
 });
-
-$('#button_buy').on('submit', function (event) {
-	event.preventDefault();
-
-	let data = $('#pagseguro_form').serialize();
-	let URL = $('.address').attr('data-address');
-
-	$.ajax({
-		method: 'POST',
-		url: URL + "checkout.php",
-		data: data,
-		dataType: 'json',
-		success: function (response) {
-			console.log(JSON.stringify(response));
-		},
-		error: function (response) {
-			console.log('Error', response);
-		}
-	})
-})

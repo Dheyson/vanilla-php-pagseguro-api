@@ -1,6 +1,6 @@
 <?php
 
-	include 'config.php';
+	include 'config.sandbox.php';
 
 	$url = URL_PAGSEGURO . "sessions?email=" . EMAIL_PAGSEGURO . "&token=" . TOKEN_PAGSEGURO;
 
