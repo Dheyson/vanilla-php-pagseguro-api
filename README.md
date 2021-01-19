@@ -13,6 +13,11 @@ This comes as a future reference.
 
 Dheyson Alves – [@DheysonAlves2](https://twitter.com/DheysonAlves2) – dheyson10@gmail.com
 
+## Future
+
+- Integrate with notification status API
+- Save on database data
+
 ## 👋 Contributing
 
 1. Fork it (<https://github.com/Dheyson/awesome-form-jquery-validator/fork>)
